@@ -86,4 +86,34 @@ class TicketController extends Controller
                 'available_quantity' => ($ticket->available_quantity())
             ]);
     }
+
+
+    /**
+     * Sells the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Buyer  $buyer
+     * @return \Illuminate\Http\Response
+     */
+    public function sells(Request $request, Ticket $ticket)
+    {
+        $validated = $request->validate([
+            'txb_buyer_id' => 'required|exists:tbl_buyers,id',
+            'txb_quantity' => 
+                "required|integer|min:1|max:{$ticket->available_quantity()}"
+        ]);
+
+        if(!$ticket->sell($validated['txb_quantity'])){
+            return response()->json([
+                "message" => "Tickets could not be sold.",
+                "errors" => array([
+                  "tic_sell" => [
+                    "Ticket could not be updated, try again."
+                  ]
+                ])
+            ]);
+        }
+
+        return Response()->json( [], 405 ); //405 Method Not Allowed
+    }
 }
