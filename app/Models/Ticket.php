@@ -17,7 +17,7 @@ class ticket extends Model
     ];
 
     public function available_quantity(){
-        return $this->tic_quantity - $this->sold;
+        return $this->tic_quantity - $this->tic_sold;
     }
 
     public function sell($quantity){
