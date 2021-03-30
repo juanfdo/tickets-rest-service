@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\BuyerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,15 @@ Route::middleware('api')
     ->get(
         'tickets/{ticket}/available',
         'App\Http\Controllers\TicketController@available'
+    );
+Route::middleware('api')
+    ->post(
+        'tickets/{ticket}/sells',
+        'App\Http\Controllers\TicketController@sells'
+    );
+
+// This is the route for buyers api.
+Route::middleware('api')
+    ->resource(
+        'buyers', BuyerController::class
     );
