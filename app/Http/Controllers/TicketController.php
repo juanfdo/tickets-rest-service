@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\TicketXBuyer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,7 +31,7 @@ class TicketController extends Controller
 
         $validated = $request->validate([
             'tic_event_name' => 'required|unique:tbl_tickets|max:255',
-            'tic_quantity' => 'required|min:1',
+            'tic_quantity' => 'required|integer|min:1',
         ]);
 
         $ticket = Ticket::create($validated);
@@ -114,6 +115,12 @@ class TicketController extends Controller
             ]);
         }
 
-        return Response()->json( [], 405 ); //405 Method Not Allowed
+        $ticketXBuyer = TicketXBuyer::create([
+            'txb_ticket_id' => $ticket->id,
+            'txb_buyer_id' => $validated['txb_buyer_id'],
+            'txb_quantity' => $validated['txb_quantity']
+        ]);
+
+        return Response()->json( $ticketXBuyer, 405 ); //405 Method Not Allowed
     }
 }
