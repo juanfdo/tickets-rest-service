@@ -83,7 +83,7 @@ class TicketController extends Controller
         return Response()
             ->json([
                 'id' => $ticket->id,
-                'available_quantity' => ($ticket->tic_quantity - $ticket->tic_sold)
+                'available_quantity' => ($ticket->available_quantity())
             ]);
     }
 }
