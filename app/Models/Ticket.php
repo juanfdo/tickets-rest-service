@@ -19,4 +19,14 @@ class ticket extends Model
     public function available_quantity(){
         return $this->tic_quantity - $this->sold;
     }
+
+    public function sell($quantity){
+        if($quantity <= 0) return false;
+
+        if($quantity > $this->available_quantity()) return false;
+
+        return $this->update([
+            'tic_sold' => $this->tic_sold + $quantity
+        ]);
+    }
 }
