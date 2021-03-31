@@ -121,6 +121,6 @@ class TicketController extends Controller
             'txb_quantity' => $validated['txb_quantity']
         ]);
 
-        return Response()->json( $ticketXBuyer, 405 ); //405 Method Not Allowed
+        return Response()->json( $ticketXBuyer ); //405 Method Not Allowed
     }
 }
